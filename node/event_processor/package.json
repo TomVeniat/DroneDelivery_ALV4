@@ -19,7 +19,8 @@
   },
   "dependencies": {
     "kafka-node": "~0.2.29",
-    "express": "~4.13.3"
+    "express": "~4.13.3",
+    "body-parser": "~1.14.1"
   },
   "private": true,
   "license": "no license"
