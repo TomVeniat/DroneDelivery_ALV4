@@ -1,11 +1,8 @@
 var express = require("express"),
-	bodyParser = require("body-parser"),
 	trackingProcessor = require("./tracking_processor"),
-	server = express();
+	router = express.Router();
 
-server.use(bodyParser.json());
-
-server.post('/drone_message', function (req, res) {
+router.post('/drone_message', function (req, res) {
 	var message = req.body;
 
 	// TODO check message validity
@@ -13,4 +10,4 @@ server.post('/drone_message', function (req, res) {
 	res.end();
 });
 
-server.listen(8080);
+module.exports = router;
