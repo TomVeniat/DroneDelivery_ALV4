@@ -1,3 +1,7 @@
+/*
+	Module processing an event.
+*/
+
 var kafkaPusher = require("./kafka_pusher");
 
 exports.processEvent = function (droneEvent) {

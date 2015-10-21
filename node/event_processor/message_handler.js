@@ -1,3 +1,7 @@
+/*
+	Module responsible for handling drone messages.
+*/
+
 var express = require("express"),
 	trackingProcessor = require("./tracking_processor"),
 	router = express.Router();

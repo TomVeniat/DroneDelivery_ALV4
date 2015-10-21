@@ -1,3 +1,7 @@
+/*
+	Main app.
+*/
+
 var express = require("express"),
 	bodyParser = require("body-parser"),
 	messageHandler = require("./message_handler"),

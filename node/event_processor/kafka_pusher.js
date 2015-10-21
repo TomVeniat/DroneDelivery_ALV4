@@ -1,6 +1,10 @@
+/*
+	Module responsible for pushing messages to the Kafka broker.
+*/
+
 var kafka = require("kafka-node"),
 	Producer = kafka.Producer,
-	client = new kafka.Client(),
+	client = new kafka.Client(/*zookeeper host:port*/),
 	producer = new Producer(client)
 
 producer.on("ready", function () {

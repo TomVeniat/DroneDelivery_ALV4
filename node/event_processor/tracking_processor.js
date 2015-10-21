@@ -1,3 +1,7 @@
+/*
+	Module processing a drone message.
+*/
+
 var eventProcessor = require("./event_processor");
 
 exports.processTracking = function (trackingMessage) {
