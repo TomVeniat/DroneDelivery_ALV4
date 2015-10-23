@@ -8,7 +8,7 @@ console.log("requires a kafka server running with default configuration");
 
 var kafka = require("kafka-node"),
 	Consumer = kafka.Consumer,
-	client = new kafka.Client(),
+	client = new kafka.Client("37.187.126.101:2181"),
 	marc = new Consumer(
 		client,
 		[{topic: "expose"}, {topic: "projet"}],

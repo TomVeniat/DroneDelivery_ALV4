@@ -8,7 +8,7 @@ console.log("requires a kafka server running with default configuration");
 
 var kafka = require("kafka-node"),
 	Producer = kafka.Producer,
-	client = new kafka.Client(),
+	client = new kafka.Client("37.187.126.101:2181"),
 	producer = new Producer(client),
 	payloads = [
 		{topic: "projet", messages: "faut se mettre au boulot les gars !"},

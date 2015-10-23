@@ -4,7 +4,7 @@
 
 var kafka = require("kafka-node"),
 	Producer = kafka.Producer,
-	client = new kafka.Client(/*zookeeper host:port*/),
+	client = new kafka.Client("37.187.126.101:2181"),
 	producer = new Producer(client)
 
 producer.on("ready", function () {
