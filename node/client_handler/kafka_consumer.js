@@ -22,6 +22,7 @@ function followTopic(topicId) {
        console.log(err)
     });
 
+
     return topicFollower
 }
 
