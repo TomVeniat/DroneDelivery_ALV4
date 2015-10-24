@@ -3,14 +3,18 @@
 */
 
 var express = require("express"),
-	trackingProcessor = require("./tracking_processor"),
-	router = express.Router();
+	router = express.Router()
+	kafkaPusher = require("./kafka_pusher");
 
 router.post('/drone_message', function (req, res) {
 	var message = req.body;
-
+	console.log(message);
 	// TODO check message validity
-	trackingProcessor.processTracking(message);
+//	trackingProcessor.processTracking(message); ancien code
+
+	// FORME DU JSON : {"id":"0","event":"drone","deliveryNumber":"0"}
+	kafkaPusher.pushEvent(message);
+
 	res.end();
 });
 
