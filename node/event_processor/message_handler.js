@@ -3,7 +3,7 @@
 */
 
 var express = require("express"),
-	router = express.Router()
+	router = express.Router(),
 	kafkaPusher = require("./kafka_pusher");
 
 router.post('/drone_message', function (req, res) {
@@ -14,7 +14,7 @@ router.post('/drone_message', function (req, res) {
 
 	// FORME DU JSON : {"id":"0","event":"drone","deliveryNumber":"0"}
 	kafkaPusher.pushEvent(message);
-
+	
 	res.end();
 });
 

@@ -4,7 +4,7 @@
 
 var kafka = require("kafka-node"),
 	Producer = kafka.Producer,
-	client = new kafka.Client("37.187.126.101:8082"),
+	client = new kafka.Client("10.188.64.232:8082"),
 	producer = new Producer(client)
 
 producer.on("ready", function () {
