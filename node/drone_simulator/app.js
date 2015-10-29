@@ -2,7 +2,14 @@
 	Main app.
 */
 
-var droneSimulator = require("./drone_simulator"),
-	app = droneSimulator.server();
+var express = require("express"),
+	bodyParser = require("body-parser"),
+	droneSimulator = require("./drone_simulator"),
+	app = express();
 
-app.listen(8280, "127.0.0.1");
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use("/", droneSimulator);
+
+app.listen(8280);
