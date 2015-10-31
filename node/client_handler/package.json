@@ -1,8 +1,8 @@
 {
-  "name": "drone_delivery_event_processor",
+  "name": "EN&AST_client_handler",
   "version": "0.0.1",
   "description": "Handles drone messages, process them and push them into the MOM.",
-  "author": "ALSI5-M2IFI Groupe 2",
+  "author": "ALSI5-15/16 Groupe 2",
   "contributors": [
     {
       "name": "Quentin Cornevin",
