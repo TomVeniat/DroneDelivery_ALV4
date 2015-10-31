@@ -5,7 +5,7 @@
 
 var kafka = require("kafka-node"),
     Consumer = kafka.Consumer,
-    trackingProcessor = require("./../client_handler/tracking_processor"),
+    trackingProcessor = require("./../event_processor/tracking_processor"),
     client = new kafka.Client("10.188.64.232:8082");
 
 function followTopic(topicId) {
