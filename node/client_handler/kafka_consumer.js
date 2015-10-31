@@ -1,12 +1,12 @@
-/**
- * Created by Quentin on 10/23/2015.
- */
-
+/*
+    Module responsible for subscribing to Kafka topics.
+*/
 
 var kafka = require("kafka-node"),
     Consumer = kafka.Consumer,
-    trackingProcessor = require("./../event_processor/tracking_processor"),
-    client = new kafka.Client("10.188.64.232:8082");
+    //ZOOKEEPER_ADDRESS = "10.188.64.232:8082",
+    ZOOKEEPER_ADDRESS = "localhost:2181",
+    client = new kafka.Client(ZOOKEEPER_ADDRESS);
 
 function followTopic(topicId) {
     var topicFollower = new Consumer(
@@ -16,14 +16,13 @@ function followTopic(topicId) {
     )
 
     topicFollower.on("message", function(message) {
-        trackingProcessor.processTracking(message);
+        // TODO maintenir une liste des followers et leur envoyer une requête http à chaque fois qu'il y a un message ?
         console.log(message)
     });
 
     topicFollower.on("error", function(err) {
        console.log(err)
     });
-
 
     return topicFollower
 }

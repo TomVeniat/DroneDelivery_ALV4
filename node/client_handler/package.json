@@ -1,7 +1,7 @@
 {
   "name": "EN&AST_client_handler",
   "version": "0.0.1",
-  "description": "Handles drone messages, process them and push them into the MOM.",
+  "description": "Handles client requests.",
   "author": "ALSI5-15/16 Groupe 2",
   "contributors": [
     {

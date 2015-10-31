@@ -1,6 +1,6 @@
-/**
- * Created by Quentin on 10/21/2015.
- */
+/*
+	Module responsible for handling client requests.
+*/
 
 var express = require("express"),
     kafkaConsumer = require("./kafka_consumer")
@@ -13,6 +13,5 @@ router.post('/subscription/create', function (req, res) {
     console.log(message.topicId);
     res.end();
 });
-
 
 module.exports = router;
