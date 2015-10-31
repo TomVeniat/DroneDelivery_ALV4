@@ -15,7 +15,7 @@ function valide(message, res) {
 		var patt1 = new RegExp(/\d+/);
 		if(!patt1.test(message["id"])) {
 			//Message not ok
-		}-m ""
+		}
 		var patt2 = new RegExp(/^\d+[NnSs]$/); //the format as: 34.22N
 		if(!patt2.test(message["lat"])){
 			//Message not ok
