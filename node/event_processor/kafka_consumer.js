@@ -5,13 +5,11 @@
 var kafka = require("kafka-node"),
     Consumer = kafka.Consumer,
     trackingProcessor = require("./tracking_processor"),
-    //ZOOKEEPER_ADDRESS = "10.188.64.232:8082",
-    ZOOKEEPER_ADDRESS = "localhost:2181",
-    client = new kafka.Client(ZOOKEEPER_ADDRESS),
-    DRONE_MESSAGES_TOPIC = "drone_messages",
+    kafkaProperties = require("../kafka_properties"),
+    client = new kafka.Client(kafkaProperties.ZOOKEEPER_ADDRESS),
     consumer = new Consumer(
         client,
-        [{topic: DRONE_MESSAGES_TOPIC, offset: 13}],
+        [{topic: kafkaProperties.RAW_DRONE_MESSAGES_TOPIC, offset: 0}],
         {autocommit: false, fromOffset: true}
     );
 

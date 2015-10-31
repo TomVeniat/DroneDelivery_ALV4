@@ -4,9 +4,8 @@
 
 var kafka = require("kafka-node"),
     Consumer = kafka.Consumer,
-    //ZOOKEEPER_ADDRESS = "10.188.64.232:8082",
-    ZOOKEEPER_ADDRESS = "localhost:2181",
-    client = new kafka.Client(ZOOKEEPER_ADDRESS);
+    kafkaProperties = require("../kafka_properties"),
+    client = new kafka.Client(kafkaProperties.ZOOKEEPER_ADDRESS);
 
 function followTopic(topicId) {
     var topicFollower = new Consumer(
