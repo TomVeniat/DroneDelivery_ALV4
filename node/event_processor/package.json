@@ -1,0 +1,27 @@
+{
+  "name": "EN&AST_event_processor",
+  "version": "0.0.1",
+  "description": "Retrieves raw drone messages from the MOM, process them and push them back into the MOM.",
+  "author": "ALSI5-15/16 Groupe 2",
+  "contributors": [
+    {
+      "name": "Quentin Cornevin",
+      "email": "qcornevin@gmail.com"
+    },
+    {
+      "name": "Marc Karassev",
+      "email": "marc.karassev@yahoo.fr"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TomVeniat/DroneDelivery_ALV4.git"
+  },
+  "dependencies": {
+    "kafka-node": "~0.2.29",
+    "express": "~4.13.3",
+    "body-parser": "~1.14.1"
+  },
+  "private": true,
+  "license": "no license"
+}
