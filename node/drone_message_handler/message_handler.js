@@ -17,13 +17,14 @@ var express = require("express"),
 		"fuel": 99,
 		"event": "usual_tracking_message"
 	}
+	"event" property is optional, of course the values may differ
 */
 router.post('/drone_message', function (req, res) {
 	var message = req.body;
 	
 	console.log(message);
 	// TODO check message validity
-	kafkaPusher.pushEvent(message);
+	kafkaPusher.pushMessage(JSON.stringify(message));
 	res.end();
 });
 
