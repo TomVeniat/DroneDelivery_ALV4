@@ -1,5 +1,5 @@
 {
-  "name": "EN&AST_drone_message_handler",
+  "name": "ENAST_drone_message_handler",
   "version": "0.0.1",
   "description": "Handles drone messages and push them into the MOM.",
   "author": "ALSI5-15/16 Groupe 2",

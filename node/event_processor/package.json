@@ -1,5 +1,5 @@
 {
-  "name": "EN&AST_event_processor",
+  "name": "ENAST_event_processor",
   "version": "0.0.1",
   "description": "Retrieves raw drone messages from the MOM, process them and push them back into the MOM.",
   "author": "ALSI5-15/16 Groupe 2",
