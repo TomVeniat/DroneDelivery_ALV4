@@ -17,7 +17,7 @@ function valide(message, res) {
 			//Message not ok
 		}
 		var patt2 = new RegExp(/^\d+[NnSs]$/); //the format as: 34.22N
-		cif(!patt2.test(message["lat"])) {
+		if(!patt2.test(message["lat"])){
 			//Message not ok
 		}
 		var patt3 = new RegExp(/^\d+[WwEe]$/);  //the format as: 34.22E
@@ -32,7 +32,7 @@ function valide(message, res) {
 			//Message not ok
 		}
 		var event = message["event"];
-		if(event && events.indexOf(event) < 0) 
+		if(event && events.indexOf(event) < 0){
 			//Message not ok
 		} else {
 			res.send("ok");
