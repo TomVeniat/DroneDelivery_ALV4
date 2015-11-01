@@ -4,7 +4,9 @@ node_js:
   - "0.10"
 
 
-before_install: echo coucou
+before_install: echo "coucou"
+
+script: echo "build"
 
 after_script: 
   - echo after
