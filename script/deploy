@@ -1,0 +1,7 @@
+ssh alv4_deploy@37.187.126.101 <<EOF
+cd ~/production/DroneDelivery_ALV4/node/client_handler/
+git pull
+npm install #--production
+forever restartall
+exit
+EOF
