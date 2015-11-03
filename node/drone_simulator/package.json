@@ -18,10 +18,7 @@
     "url": "https://github.com/TomVeniat/DroneDelivery_ALV4.git"
   },
   "dependencies": {
-    "kafka-node": "~0.2.29",
-    "express": "~4.13.3",
-    "body-parser": "~1.14.1",
-    "sleep": "~3.0.0"
+    "request" : "~2.65.0"
   },
   "private": true,
   "license": "no license"
