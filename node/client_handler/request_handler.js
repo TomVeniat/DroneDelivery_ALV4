@@ -17,7 +17,7 @@ router.post('/subscription/create', function (req, res) {
 router.get('/test', function (req, res) {
     console.log("got smtg");
     res.writeHead(200, {"Content-Type": "text/plain"});
-    res.end("Hello World\n");
+    res.end("Hello All ! <3\n");
 });
 
 module.exports = router;
