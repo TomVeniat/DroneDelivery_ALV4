@@ -11,6 +11,6 @@ exports.processTracking = function (trackingMessage) {
 	console.log("processing tracking", trackingMessage);
 	if (trackingMessage.event == undefined)
 		producedEvent.event = "usual_tracking_message";
-	producedEvent.deliveryNumber = "" + trackingMessage.id; // LOL
+	producedEvent.deliveryNumber = "" + trackingMessage.id; // Get delivery number of the database with the trackingMessage.id
 	eventProcessor.processEvent(producedEvent);
 }
