@@ -5,22 +5,18 @@
  /*
   Call the simulator every 5 seconds
   */
-var droneSimulator=require('./drone_simulator');
-var test = require("./drone");
+var drone = require("./drone");
 
 //setInterval(droneSimulator.simulate, 500);
 
-//var derp = new test.drone("test","test");
-//derp.run();
-
-var table = [120];
+var table = [1600];
 
 
-for(var j = 0; j < 100; j++) {
-  var caca = new test.drone(j,j);
-  table[j] = caca;
+for(var j = 0; j < 1600; j++) {
+  var myDrone = new drone.drone(j,j);
+  table[j] = myDrone;
 }
 
-for(var j = 0; j < 100; j++) {
+for(var j = 0; j < 1600; j++) {
   table[j].run();
 }

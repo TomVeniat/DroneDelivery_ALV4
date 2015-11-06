@@ -10,10 +10,11 @@ var Drone  = function(id, event) {
     this.event = event;
 
     this.run = function() {
-        for(var k = 0; k < 10; k++) {
+        /** Boucle qui va jusque 36 car 5 secondes entre chaque appelle et une durée de 3 minutes **/
+        for(var k = 0; k < 36; k++) {
             setTimeout(function () {
                 droneSimulator.simulate()
-            }, 10);
+            }, 5000);
         }
         console.log(id);
     };
@@ -22,3 +23,4 @@ Drone.prototype = new Drone();
 
 
 exports.drone = Drone;
+
