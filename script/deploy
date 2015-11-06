@@ -1,7 +1,11 @@
 ssh alv4_deploy@37.187.126.101 <<EOF
-cd ~/production/DroneDelivery_ALV4/node/client_handler/
 git pull
+cd ~/production/DroneDelivery_ALV4/node/client_handler/
 npm install #--production
+cd ~/production/DroneDelivery_ALV4/node/drone_message_handler/
+npm install
+cd ~/production/DroneDelivery_ALV4/node/event_processor/
+npm install
 forever restartall
 exit
 EOF
