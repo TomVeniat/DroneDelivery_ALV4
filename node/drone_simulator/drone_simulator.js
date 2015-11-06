@@ -9,9 +9,10 @@ var http = require('http'),
 function simulate() {
   //The options set the endpoint, the request POST with the data JSON
   var options = {
-  	host : '10.188.64.232',
+  //	host : '10.188.64.232',
+    host : 'localhost',
   	path : '/drone_message',
-  	port : '8080',
+  	port : '9000',
   	method : 'POST',
     headers: {
           'Content-Type': 'application/json'
