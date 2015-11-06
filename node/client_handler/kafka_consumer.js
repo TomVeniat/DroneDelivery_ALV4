@@ -11,7 +11,7 @@ function followTopic(topicId) {
     var topicFollower = new Consumer(
         client,
         [{topic: topicId}],
-        {autocommit: false, fromOffset: true}
+        {autocommit: false, fromOffset: true}//false, fetchMaxWaitMs:}
     )
 
     topicFollower.on("message", function(message) {

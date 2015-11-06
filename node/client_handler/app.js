@@ -1,5 +1,5 @@
 /**
- * Created by Quentin on 10/21/2015.
+ * Main app.
  */
 
 var express = require("express"),
