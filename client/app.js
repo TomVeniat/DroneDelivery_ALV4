@@ -3,18 +3,17 @@
  */
 
 
+
+
 function run() {
     console.log("derp");
     var drones = [1600];
-    start();
+    var simulation = new Simulation(1600);
+    start(simulation);
 
 
     setTimeout(function() {
-        for(var j = 0; j < 1600; j++) {
-            var myDrone = new Drone(j,"usual_tracking_message");
-            drones[j] = myDrone;
-            myDrone.run();
-        }
+        simulation.run();
     }, 0);
 
 

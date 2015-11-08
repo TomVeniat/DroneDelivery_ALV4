@@ -3,7 +3,7 @@
  */
 
 
-function start() {
+function start(simulation) {
     var derp = 1;
 
 
@@ -26,7 +26,7 @@ function start() {
                         var series = this.series[0];
                         setInterval(function () {
                             var x = new Date().getTime() , // current time
-                                y = derp++;
+                                y = simulation.getDrones().length;       // derp++; si on laisse derp++ ca fait une droite y=x
                             series.addPoint([x, y], true, true);
                         }, 1000);
                     }
