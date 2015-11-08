@@ -5,19 +5,22 @@
 
 function run() {
     console.log("derp");
-    $.post("http://localhost:9000/drone_message",
-        {
-            "id": 3,
-            "lat": 10.1,
-            "lon": 12.1,
-            "alt": 15.0,
-            "fuel": 99,
-            "event": "usual_tracking_message"
-        }).done(function(data) {
-            alert("derp");
-        });
-
+    var drones = [1600];
     start();
+
+
+    setTimeout(function() {
+        for(var j = 0; j < 1600; j++) {
+            var myDrone = new Drone(j,"usual_tracking_message");
+            drones[j] = myDrone;
+            myDrone.run();
+        }
+    }, 0);
+
+
+
+  //  var drone = new Drone("5","usual_tracking_message");
+   // drone.run();
 
 };
 
