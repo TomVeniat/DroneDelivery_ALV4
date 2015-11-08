@@ -2,7 +2,11 @@
  * Created by Quentin on 11/8/2015.
  */
 
-
+/**
+ * This function use the HighChart library to draw a live graph that will draw the number
+ * of drone started in the simulation in function of the time in second.
+ * @param simulation
+ */
 function start(simulation) {
     var derp = 1;
 
