@@ -18,7 +18,7 @@ var Simulation = function(numberOfDrone) {
      */
     this.run = function () {
         //for (var j = 0; j < this.numberDrone; j++) {
-            window.j =0
+            window.j =0;
             var self = this;
             //Every second start 10 drones and stop it when the number is limited
             var drones = setInterval(function () {

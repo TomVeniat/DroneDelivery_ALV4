@@ -30,7 +30,7 @@ var Drone = function(id, event) {
      * This method will send the information of the drone with the given id and event.
      */
     function sendInfo() {
-        $.post("http://localhost:9000/drone_message",
+        $.post("http://37.187.126.101:9000/drone_message",
             {
                 "id": id,
                 "lat": 10.1,
