@@ -9,7 +9,6 @@ function generator() {
 	msg["alt"]= 15.0;
 	msg["fuel"]= 99;
 	msg["event"]= "take off";
-
 	return msg;
 }
 

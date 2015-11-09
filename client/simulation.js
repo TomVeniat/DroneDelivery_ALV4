@@ -14,17 +14,23 @@ var Simulation = function(numberOfDrone) {
 
     /**
      * This function will start the simulation
-     * TODO : Now the simulation just start all the drone, but it should start 10 drone per second instead
+     * TODO : Now the simulation just start all the drone, but it should start 10 drone per second instead(OK?)
      */
     this.run = function () {
-        for (var j = 0; j < this.numberDrone; j++) {
+        //for (var j = 0; j < this.numberDrone; j++) {
+            window.j =0
             var self = this;
-            setTimeout(function () {
-                var myDrone = new Drone(j, "usual_tracking_message");
-                self.drones[j] = myDrone;
+            //Every second start 10 drones and stop it when the number is limited
+            var drones = setInterval(function () {
+                if(j>=this.numberDrone) {
+                    clearInterval(drones);
+                }
+                var myDrone = new Drone(window.j, "usual_tracking_message");
+                console.log("j:" + window.j);
+                self.drones[window.j++] = myDrone;
                 myDrone.run();
-            }, 0)
-        }
+            }, 100);
+       // }
     }
 
     /**

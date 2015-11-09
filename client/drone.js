@@ -13,14 +13,17 @@ var Drone = function(id, event) {
     this.event = event;
 
     /**
-     * This function start a drone. Now the drone just send one message, but he is supposed
-     * to send 1 message very 5 seconds. TODO !
+     * This function starts a drone. Now the drone just send one message, but he is supposed
+     * to send 1 message every 5 seconds. TODO !(OK?)
      */
     this.run = function() {
-        sendInfo();
-        setTimeout(function() {
+        //sendInfo();
+        /*setTimeout(function() {
             console.log("HEEEEHO")
-        }, 5000)
+        }, 5000);*/
+
+        //Every 5 secondes send a message
+        setInterval(sendInfo, 5000);
     }
 
     /**
