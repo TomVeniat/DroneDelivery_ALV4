@@ -12,10 +12,5 @@ function run() {
     console.log("derp");
     var simulation = new Simulation(1600);
     start(simulation);
-
-
-    setTimeout(function() {
-        simulation.run();
-    }, 0);
-};
+}
 

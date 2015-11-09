@@ -5,7 +5,7 @@
 var kafka = require("kafka-node"),
     Consumer = kafka.Consumer,
     trackingProcessor = require("./tracking_processor"),
-    kafkaProperties = require("../kafka_properties"),
+    kafkaProperties = require("../properties"),
     client = new kafka.Client(kafkaProperties.ZOOKEEPER_ADDRESS),
     consumer = new Consumer(
         client,

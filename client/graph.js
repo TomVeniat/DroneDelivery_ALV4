@@ -29,7 +29,7 @@ function start(simulation) {
                         // set up the updating of the chart each second
                         var series = this.series[0];
                         setInterval(function () {
-                            var x = new Date().getTime() , // current time
+                            var x = new Date().getTime(), // current time
                                 y = simulation.getDrones().length;       // derp++; si on laisse derp++ ca fait une droite y=x
                             series.addPoint([x, y], true, true);
                         }, 1000);
@@ -85,4 +85,6 @@ function start(simulation) {
             }]
         });
     });
-};
+
+    simulation.run();
+}

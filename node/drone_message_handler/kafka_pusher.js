@@ -4,7 +4,7 @@
 
 var kafka = require("kafka-node"),
 	Producer = kafka.Producer,
-	kafkaProperties = require("../kafka_properties"),
+	kafkaProperties = require("../properties"),
 	client = new kafka.Client(kafkaProperties.ZOOKEEPER_ADDRESS),
 	producer = new Producer(client)
 

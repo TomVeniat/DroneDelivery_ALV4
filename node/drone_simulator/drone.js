@@ -2,19 +2,23 @@
  * Created by Quentin on 11/6/2015.
  */
 
-var droneSimulator=require('./drone_simulator');
+var droneSimulator=require('./drone_simulator'),
+    properties = require("../properties");
 
 
 var Drone  = function(id, event) {
     this.id = id;
     this.event = event;
 
-    this.run = function() {
-        /** Boucle qui va jusque 36 car 5 secondes entre chaque appelle et une durée de 3 minutes **/
-        for(var k = 0; k < 36; k++) {
+    this.run = function(totalTime, pingFrequency) {
+        totalTime = totalTime || properties.DRONE.SIMULATION_TIME;
+        pingFrequency = pingFrequency || properties.DRONE.PING_FREQUENCY;
+
+        for(var k = 0; k < totalTime/pingFrequency; k++) {
             setTimeout(function () {
+                console.log(k);
                 droneSimulator.simulate()
-            }, 5000);
+            }, pingFrequency);
         }
         console.log(id);
     };

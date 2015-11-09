@@ -9,37 +9,42 @@
  * @constructor
  */
 var Simulation = function(numberOfDrone) {
-    this.numberDrone = numberOfDrone;
-    this.drones = [numberOfDrone]
+    var drones = [numberOfDrone],
+        runningDrones = 0;
 
     /**
      * This function will start the simulation
      * TODO : Now the simulation just start all the drone, but it should start 10 drone per second instead(OK?)
      */
     this.run = function () {
-        //for (var j = 0; j < this.numberDrone; j++) {
-            window.j =0;
-            var self = this;
-            //Every second start 10 drones and stop it when the number is limited
-            var drones = setInterval(function () {
-                console.log("Valeur de j"+ j+ "nombre de drone" + self.numberDrone);
-                if(window.j>=self.numberDrone) {
-                    clearInterval(drones);
-                }
-                var myDrone = new Drone(window.j, "usual_tracking_message");
-                console.log("j:" + window.j);
-                self.drones[window.j++] = myDrone;
+
+        //Every second start 10 drones and stop it when the number is limited
+        var dronesInterval = setInterval(function () {
+            console.log( runningDrones + " out of "+ numberOfDrone + " are currently running");
+
+            if (runningDrones >= numberOfDrone) {
+                clearInterval(dronesInterval);
+            }
+
+            for (var i = 0 ; i < 10 ; ++i) {
+
+                var myDrone = new Drone(runningDrones, "usual_tracking_message");
+
+                drones[runningDrones++] = myDrone;
+
                 myDrone.run();
-            }, 100);
-       // }
-    }
+
+            }
+
+        }, 1000);
+    };
 
     /**
      * This method is used in graph.js to display the number of drone started.
      * @returns {Array} the array of all the started drones.
      */
     this.getDrones = function () {
-        return this.drones;
+        return drones;
     }
 };
 
