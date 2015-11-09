@@ -22,7 +22,8 @@ var Simulation = function(numberOfDrone) {
             var self = this;
             //Every second start 10 drones and stop it when the number is limited
             var drones = setInterval(function () {
-                if(j>=this.numberDrone) {
+                console.log("Valeur de j"+ j+ "nombre de drone" + self.numberDrone);
+                if(window.j>=self.numberDrone) {
                     clearInterval(drones);
                 }
                 var myDrone = new Drone(window.j, "usual_tracking_message");

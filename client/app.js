@@ -10,7 +10,7 @@
  */
 function run() {
     console.log("derp");
-    var simulation = new Simulation(1600);
+    var simulation = new Simulation(100);
     start(simulation);
 
 
