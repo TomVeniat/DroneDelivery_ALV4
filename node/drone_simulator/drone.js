@@ -11,8 +11,8 @@ var Drone  = function(id, event) {
     this.event = event;
 
     this.run = function(totalTime, pingFrequency) {
-        totalTime = totalTime || properties.DRONE.SIMULATION_TIME;
-        pingFrequency = pingFrequency || properties.DRONE.PING_FREQUENCY;
+        totalTime = totalTime || properties.SIMULATION_TIME;
+        pingFrequency = pingFrequency || properties.PING_FREQUENCY;
 
         for(var k = 0; k < totalTime/pingFrequency; k++) {
             setTimeout(function () {
