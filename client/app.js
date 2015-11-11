@@ -9,6 +9,8 @@
  * asynchronously.
  */
 function run() {
+    compteur = 0;
+
     console.log("derp");
     var simulation = new Simulation(1600);
     start(simulation);

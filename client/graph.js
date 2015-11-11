@@ -30,14 +30,14 @@ function start(simulation) {
                         var series = this.series[0];
                         setInterval(function () {
                             var x = new Date().getTime(), // current time
-                                y = simulation.getDrones().length;       // derp++; si on laisse derp++ ca fait une droite y=x
+                                y = compteur    // simulation.getDrones().length;       // derp++; si on laisse derp++ ca fait une droite y=x
                             series.addPoint([x, y], true, true);
                         }, 1000);
                     }
                 }
             },
             title: {
-                text: 'Drone number evolution'
+                text: 'MEssage number evolution'
             },
             xAxis: {
                 type: 'datetime',
@@ -45,7 +45,7 @@ function start(simulation) {
             },
             yAxis: {
                 title: {
-                    text: 'Number of drone'
+                    text: 'Number of message'
                 },
                 plotLines: [{
                     value: 0,

@@ -26,10 +26,14 @@ var Drone = function(id, event) {
         setInterval(sendInfo, 5000);
     }
 
+
+    //        $.post("http://37.187.126.101:9000/drone_message",
+
     /**
      * This method will send the information of the drone with the given id and event.
      */
     function sendInfo() {
+        console.log("Chez tom");
         $.post("http://37.187.126.101:9000/drone_message",
             {
                 "id": id,
@@ -41,6 +45,7 @@ var Drone = function(id, event) {
             }).done(function(data) {
                 console.log("derp");
             });
+        compteur++;
     }
 };
 
