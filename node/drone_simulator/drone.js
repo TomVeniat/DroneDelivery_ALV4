@@ -10,17 +10,21 @@ var Drone  = function(id, event) {
     this.id = id;
     this.event = event;
 
-    this.run = function(totalTime, pingFrequency) {
-        totalTime = totalTime || properties.SIMULATION_TIME;
-        pingFrequency = pingFrequency || properties.PING_FREQUENCY;
+    this.run = function(totalTime, pingPeriodicity) {
 
-        for(var k = 0; k < totalTime/pingFrequency; k++) {
+        totalTime = totalTime || properties.SIMULATION_TIME;
+
+        pingPeriodicity = pingPeriodicity || properties.PING_PERIODICITY;
+
+        for(var k = 0; k < totalTime / pingPeriodicity; k++) {
             setTimeout(function () {
                 console.log(k);
-                droneSimulator.simulate()
-            }, pingFrequency);
+                droneSimulator.simulate();
+            }, pingPeriodicity);
         }
+
         console.log(id);
+
     };
 };
 Drone.prototype = new Drone();

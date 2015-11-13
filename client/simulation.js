@@ -19,24 +19,26 @@ var Simulation = function(numberOfDrone) {
     this.run = function () {
 
         //Every second start 10 drones and stop it when the number is limited
-        var dronesInterval = setInterval(function () {
-            console.log( runningDrones + " out of "+ numberOfDrone + " are currently running");
+        var dronesInterval =
+            setInterval(function startDrones() {
 
-            if (runningDrones >= numberOfDrone) {
-                clearInterval(dronesInterval);
-            }
+                for (var i = 0 ; i < 10 ; ++i) {
 
-            for (var i = 0 ; i < 10 ; ++i) {
+                    var myDrone = new Drone(runningDrones, "usual_tracking_message", 36, 2);
 
-                var myDrone = new Drone(runningDrones, "usual_tracking_message");
+                    drones[runningDrones++] = myDrone;
 
-                drones[runningDrones++] = myDrone;
+                    myDrone.run();
 
-                myDrone.run();
+                }
 
-            }
+                console.log( runningDrones + " out of "+ numberOfDrone + " are currently running");
 
-        }, 1000);
+                if (runningDrones >= numberOfDrone) {
+                    clearInterval(dronesInterval);
+                }
+
+            }, 1000);
     };
 
     /**
