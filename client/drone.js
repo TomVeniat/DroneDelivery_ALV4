@@ -20,6 +20,7 @@ var Drone = function(id, event, totalMessages, logPeriod) {
      * to send 1 message every 5 seconds. TODO !(OK?)
      */
     this.run = function() {
+        compteur += 0.2;
 
         //Every 5 secondes send a message
          var sending = setInterval(function sendInfo() {
@@ -42,10 +43,11 @@ var Drone = function(id, event, totalMessages, logPeriod) {
                         console.log("Drone n°" + id + " : Message n°" + (sentMessages) + " : OK.");
 
                  });
-             compteur++;
+             //compteur++;
 
              if (++sentMessages == totalMessages){
                  clearInterval(sending);
+                 compteur-=0.2
                  console.log("Drone " + id + " finished.");
              }
          }, 5000);
