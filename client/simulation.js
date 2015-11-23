@@ -8,8 +8,16 @@
   * @param numberOfDrone
  * @constructor
  */
-var Simulation = function(numberOfDrone) {
-    var drones = [numberOfDrone],
+var Simulation = function(simulationParams) {
+
+    simulationParams.nbDrones = simulationParams.nbDrones || 100;
+    simulationParams.dronePingFrequency = simulationParams.dronePingFrequency || 1;
+    simulationParams.droneSimulationTime = simulationParams.droneSimulationTime || 300;
+    simulationParams.timeBetweenLaunches = simulationParams.timeBetweenLaunches || 0;
+    simulationParams.launchSize = simulationParams.launchSize || 1;
+
+
+    var drones = [simulationParams.nbDrones],
         runningDrones = 0;
 
     /**
@@ -18,13 +26,13 @@ var Simulation = function(numberOfDrone) {
      */
     this.run = function () {
 
-        //Every second start 10 drones and stop it when the number is limited
+        //Every second start {launchSize} drones and stop it when the total number of drones reach {nbDrones}
         var dronesInterval =
             setInterval(function startDrones() {
 
-                for (var i = 0 ; i < 10 ; ++i) {
+                for (var i = 0 ; i < simulationParams.launchSize ; ++i) {
 
-                    var myDrone = new Drone(runningDrones, "usual_tracking_message", 36, 2);
+                    var myDrone = new Drone(runningDrones, "usual_tracking_message", simulationParams.droneSimulationLength, simulationParams.dronePingFrequency);
 
                     drones[runningDrones++] = myDrone;
 
@@ -32,13 +40,13 @@ var Simulation = function(numberOfDrone) {
 
                 }
 
-                console.log( runningDrones + " out of "+ numberOfDrone + " are currently running");
+                console.log( runningDrones + " out of "+ simulationParams.nbDrones + " are currently running");
 
-                if (runningDrones >= numberOfDrone) {
+                if (runningDrones >= simulationParams.nbDrones) {
                     clearInterval(dronesInterval);
                 }
 
-            }, 1000);
+            }, simulationParams.timeBetweenLaunches);
     };
 
     /**

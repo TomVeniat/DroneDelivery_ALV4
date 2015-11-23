@@ -9,9 +9,27 @@
  * asynchronously.
  */
 function run() {
-    compteur = 0;
+    totalPingFrequency = 0;
+    gloablTotalMessages = 0;
 
-    var simulation = new Simulation(300);
+    var simulationParams = {
+        //Total number of drones that will be used during the simulation
+        nbDrones : 1600,
+
+        //frequency with which a single drone will send pings (in message/second)
+        dronePingFrequency : 0.5,
+
+        //Number that rules a single drone simulation duration (in messages sent).
+        droneSimulationLength : 15,
+
+        //Time elapsed bewteen two drone launch (in ms)
+        timeBetweenLaunches : 500,
+
+        //Number of drone sent by Launch
+        launchSize : 25 };
+
+
+    var simulation = new Simulation(simulationParams);
     start(simulation);
 }
 

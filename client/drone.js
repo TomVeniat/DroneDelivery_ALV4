@@ -10,7 +10,7 @@
  * @param logPeriod The drone will log one out of logPeriod messages.
  * @constructor
  */
-var Drone = function(id, event, totalMessages, logPeriod) {
+var Drone = function(id, event, totalMessages, pingFrequency) {
     this.id = id;
     this.event = event;
     var sentMessages = 0;
@@ -20,13 +20,13 @@ var Drone = function(id, event, totalMessages, logPeriod) {
      * to send 1 message every 5 seconds. TODO !(OK?)
      */
     this.run = function() {
-        compteur += 0.2;
+        totalPingFrequency += pingFrequency;
 
         //Every 5 secondes send a message
          var sending = setInterval(function sendInfo() {
 
 
-             if( sentMessages % logPeriod == 0 ){
+             if( sentMessages % 5 == 0 ){
                  console.log("Drone n°" + id + " : Message n°" + sentMessages + " posted.");
              }
 
@@ -39,18 +39,18 @@ var Drone = function(id, event, totalMessages, logPeriod) {
                      "fuel": 99,
                      "event": event
                  }).done(function(data) {
-                    if((sentMessages % logPeriod) == 0 )
+                    if((sentMessages % 5) == 0 )
                         console.log("Drone n°" + id + " : Message n°" + (sentMessages) + " : OK.");
 
                  });
-             //compteur++;
+             gloablTotalMessages++;
 
              if (++sentMessages == totalMessages){
                  clearInterval(sending);
-                 compteur-=0.2
+                 totalPingFrequency -= pingFrequency;
                  console.log("Drone " + id + " finished.");
              }
-         }, 5000);
+         }, 1000/pingFrequency);
     }
 };
 
