@@ -1,4 +1,4 @@
-group 'fr.unice.polytech.al.drone_delivery.en_ast.kafka_examples'
+group 'fr.unice.polytech.al.drone_delivery.en_ast.examples.vertx'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
