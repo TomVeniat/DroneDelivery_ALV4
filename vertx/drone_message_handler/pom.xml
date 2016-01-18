@@ -26,6 +26,17 @@
       <artifactId>vertx-web</artifactId>
       <version>3.2.0</version>
     </dependency>
+
+    <dependency>
+      <groupId>org.apache.kafka</groupId>
+      <artifactId>kafka_2.9.2</artifactId>
+      <version>0.8.2.2</version>
+    </dependency>
+    <!--<dependency>
+      <groupId>com.beust</groupId>
+      <artifactId>jcommander</artifactId>
+      <version>1.30</version>
+    </dependency>-->
   </dependencies>
 
 
