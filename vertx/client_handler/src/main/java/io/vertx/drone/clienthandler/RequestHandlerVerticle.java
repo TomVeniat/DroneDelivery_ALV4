@@ -1,17 +1,55 @@
 package io.vertx.drone.clienthandler;
 
 import io.vertx.core.AbstractVerticle;
+import io.vertx.core.Context;
 import io.vertx.core.Future;
 import io.vertx.core.http.HttpServer;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.BodyHandler;
+import kafka.consumer.ConsumerConfig;
+import kafka.consumer.KafkaStream;
+import kafka.javaapi.consumer.ConsumerConnector;
 
-/**
- * Created by SUN on 21/01/2016.
- */
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+
 public class RequestHandlerVerticle extends AbstractVerticle {
+
+    public static final String ZOOKEEPER_CONNECT = "zookeeper.connect";
+    public static final String GROUP_ID = "group.id";
+    public static final String ZOOKEEPER_SESSION_TIMEOUT_MS = "zookeeper.session.timeout.ms";
+    public static final String ZOOKEEPER_SYNC_TIME_MS = "zookeeper.sync.time.ms";
+    public static final String AUTO_COMMIT_INTERVAL_MS = "auto.commit.interval.ms";
+    public static final String TOPIC = "topic";
+    public static final String ADDRESS = "address";
+    public static final String AUTO_OFFSET_RESET = "auto.offset.reset";
+    private Thread consumerThread;
+
+
+    private ConsumerConfig createConsumerConfig(JsonObject config) {
+        Properties props = new Properties();
+        props.put("zookeeper.connect", "localhost:2181");
+        props.put("group.id", "test");
+        props.put("zookeeper.session.timeout.ms", "500");
+        props.put("zookeeper.sync.time.ms", "250");
+        props.put("auto.commit.interval.ms", "1000");
+        props.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
+        props.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
+        props.put("auto.offset.reset", "smallest");
+        return new ConsumerConfig(props);
+    }
+
+
+      @Override
+    public void stop() throws Exception {
+        consumerThread.interrupt();
+        consumerThread.join();
+    }
+
     @Override
         /*
         * The start method is called when the verticle is deployed
@@ -26,8 +64,34 @@ public class RequestHandlerVerticle extends AbstractVerticle {
             JsonObject req = routingContext.getBodyAsJson();
             System.out.println(req);
             String topic = req.getString("topicId");
-            MyKafkaConsumer kafkaConsumer = new MyKafkaConsumer(topic);
+            //MyKafkaConsumer kafkaConsumer = new MyKafkaConsumer(topic);
             //kafkaConsumer.runConsumer();
+            String targetAddress = config().getString(ADDRESS, "kafka-" + topic);
+            System.out.println("Hello1");
+            System.out.println("targetAddress : " + targetAddress);
+            Context ctx = vertx.getOrCreateContext();
+            System.out.println("Hello2");
+
+            Runnable consumerRunnable = () -> {
+                ConsumerConnector consumer = kafka.consumer.Consumer.createJavaConsumerConnector(
+                        createConsumerConfig(config()));
+                Map<String, Integer> topicCountMap = new HashMap<String, Integer>();
+                topicCountMap.put(topic, 1);
+                Map<String, List<KafkaStream<byte[], byte[]>>> consumerMap = consumer.createMessageStreams(topicCountMap);
+                List<KafkaStream<byte[], byte[]>> streams = consumerMap.get(topic);
+                KafkaStream<byte[], byte[]> messageAndMetadatas = streams.get(0);
+                messageAndMetadatas.forEach(msg -> {
+                    ctx.runOnContext(exe -> vertx.eventBus().send(targetAddress, msg.message()));
+                    System.out.println(new String(msg.message()));
+                });
+                System.out.println("Hello2");
+                consumer.shutdown();
+            };
+
+            consumerThread = new Thread(consumerRunnable);
+            consumerThread.start();
+
+
             HttpServerResponse response = routingContext.response();
             response.putHeader("content-type", "application/json");
             response.end();
@@ -50,198 +114,5 @@ public class RequestHandlerVerticle extends AbstractVerticle {
             }
         });
     }
-
-
-
-
-
-
-
-
-
-
-/*
-
-
-    public static final String EVENTBUS_DEFAULT_ADDRESS = "kafka.message.consumer";
-    public static final int DEFAULT_POLL_MS = 100;
-    private String busAddress;
-    private static final Logger logger = LoggerFactory.getLogger(RequestHandlerVerticle.class);
-    private EventBus bus;
-
-    private AtomicBoolean running;
-    private KafkaConsumer consumer;
-    private List<String> topics;
-    private JsonObject verticleConfig;
-    private ExecutorService backgroundConsumer;
-    private int pollIntervalMs;
-
-    @Override
-    public void start(final Future<Void> startedResult) {
-
-        try {
-            bus = vertx.eventBus();
-            running = new AtomicBoolean(true);
-
-            verticleConfig = new JsonObject();
-            verticleConfig.put(ConfigConstants.ZK_CONNECT, "localhost:2181");
-            verticleConfig.put(ConfigConstants.BOOTSTRAP_SERVERS, "localhost:9092");
-            verticleConfig.put(ConfigConstants.GROUP_ID, "testGroup");
-            verticleConfig.put(ConfigConstants.BACKOFF_INCREMENT_MS, "100");
-            verticleConfig.put(ConfigConstants.AUTO_OFFSET_RESET, "smallest");
-            verticleConfig.put(ConfigConstants.TOPICS, Arrays.asList("javatest2"));
-            verticleConfig.put(ConfigConstants.EVENTBUS_ADDRESS, "kafka.to.vertx.bridge");
-            verticleConfig.put(ConfigConstants.CONSUMER_POLL_INTERVAL_MS, 1000);
-
-            Properties kafkaConfig = populateKafkaConfig(verticleConfig);
-            JsonArray topicConfig = verticleConfig.getJsonArray(ConfigConstants.TOPICS);
-
-            busAddress = verticleConfig.getString(ConfigConstants.EVENTBUS_ADDRESS, EVENTBUS_DEFAULT_ADDRESS);
-            pollIntervalMs = verticleConfig.getInteger(ConfigConstants.CONSUMER_POLL_INTERVAL_MS, DEFAULT_POLL_MS);
-
-            Runtime.getRuntime().addShutdownHook(new Thread() {
-                // try to disconnect from ZK as gracefully as possible
-                public void run() {
-                    shutdown();
-                }
-            });
-
-            backgroundConsumer = Executors.newSingleThreadExecutor();
-            backgroundConsumer.submit(() -> {
-                try {
-                    consumer = new KafkaConsumer(kafkaConfig);
-
-                    topics = new ArrayList<>();
-                    for (int i = 0; i < topicConfig.size(); i++) {
-                        topics.add(topicConfig.getString(i));
-                        System.out.println("Subscribing to topic ");
-                    }
-
-                    // signal success before we enter read loop
-                    startedResult.complete();
-                    consume();
-                } catch (Exception ex) {
-                    String error = "Failed to startup";
-                    System.err.println(error);
-                    bus.send(ConfigConstants.CONSUMER_ERROR_TOPIC, getErrorString(error, ex.getMessage()));
-                    startedResult.fail(ex);
-                }
-            });
-        } catch (Exception ex) {
-            String error = "Failed to startup";
-            logger.error(error, ex);
-            bus.send(ConfigConstants.CONSUMER_ERROR_TOPIC, getErrorString("Failed to startup", ex.getMessage()));
-            startedResult.fail(ex);
-        }
-    }
-
-    private String getErrorString(String error, String errorMessage) {
-        return String.format("%s - error: %s", error, errorMessage);
-    }
-
-    */
-/**
-     * Handles looping and consuming
-     *//*
-
-    private void consume() {
-        consumer.subscribe(topics);
-        while (running.get()) {
-            try {
-                ConsumerRecords records = consumer.poll(pollIntervalMs);
-
-                // there were no messages
-                if (records == null) { continue; }
-
-                Iterator<ConsumerRecord<String,String>> iterator = records.iterator();
-
-                // roll through and put each kafka message on the event bus
-                while (iterator.hasNext()) { sendMessage(iterator.next()); }
-
-            } catch (Exception ex) {
-                String error = "Error consuming messages from kafka";
-                logger.error(error, ex);
-                bus.send(ConfigConstants.CONSUMER_ERROR_TOPIC, getErrorString(error, ex.getMessage()));
-            }
-        }
-    }
-
-
-    @Override
-    public void stop() { running.compareAndSet(true, false); }
-
-    */
-/**
-     * Send the inbound message to the event bus consumer.
-     *
-     * @param record the kafka event
-     *//*
-
-    private void sendMessage(ConsumerRecord<String, String> record) {
-        try {
-                JsonObject obj = KafkaEvent.createEventForBus(record);
-                bus.send(busAddress, obj);
-                System.out.println(obj);
-        }
-        catch (Exception ex) {
-            String error = String.format("Error sending messages on event bus - record: %s", record.toString());
-            System.err.println(error);
-            bus.send(ConfigConstants.CONSUMER_ERROR_TOPIC, getErrorString(error, ex.getMessage()));
-        }
-    }
-
-
-
-    private Properties populateKafkaConfig(JsonObject config) {
-        Properties consumerConfig = new Properties();
-        consumerConfig.put(ConfigConstants.ZK_CONNECT, config.getString(ConfigConstants.ZK_CONNECT, "localhost:2181"));
-        consumerConfig.put(ConfigConstants.BACKOFF_INCREMENT_MS,
-                config.getString(ConfigConstants.BACKOFF_INCREMENT_MS, "100"));
-        consumerConfig.put(ConfigConstants.AUTO_OFFSET_RESET,
-                config.getString(ConfigConstants.AUTO_OFFSET_RESET, "smallest"));
-
-        consumerConfig.put(ConfigConstants.BOOTSTRAP_SERVERS, getRequiredConfig(ConfigConstants.BOOTSTRAP_SERVERS));
-
-        consumerConfig.put(ConfigConstants.KEY_DESERIALIZER_CLASS,
-                config.getString(ConfigConstants.KEY_DESERIALIZER_CLASS, ConfigConstants.DEFAULT_DESERIALIZER_CLASS));
-        consumerConfig.put(ConfigConstants.VALUE_DESERIALIZER_CLASS,
-                config.getString(ConfigConstants.VALUE_DESERIALIZER_CLASS, ConfigConstants.DEFAULT_DESERIALIZER_CLASS));
-        consumerConfig.put(ConfigConstants.GROUP_ID, getRequiredConfig(ConfigConstants.GROUP_ID));
-        return consumerConfig;
-    }
-
-    private String getRequiredConfig(String key) {
-        String value = verticleConfig.getString(key, null);
-
-        if (null == value) {
-            throw new IllegalArgumentException(String.format("Required config value not found key: %s", key));
-        }
-        return value;
-    }
-
-    */
-/**
-     * Handle stopping the consumer.
-     *//*
-
-    private void shutdown() {
-        running.compareAndSet(true, false);
-        try {
-            if(consumer != null) {
-                try {
-                    consumer.unsubscribe();
-                    consumer.close();
-                    consumer = null;
-                } catch (Exception ex) {  }
-            }
-
-            if(backgroundConsumer != null) {
-                backgroundConsumer.shutdown();
-                backgroundConsumer = null;
-            }
-        } catch (Exception ex) {
-            logger.error("Failed to close consumer", ex);
-        }
-    }
-*/
 }
+   
