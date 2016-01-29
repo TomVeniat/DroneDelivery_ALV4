@@ -4,11 +4,7 @@ import backtype.storm.spout.SchemeAsMultiScheme;
 import backtype.storm.topology.TopologyBuilder;
 import backtype.storm.utils.Utils;
 import storm.kafka.*;
-import storm.kafka.bolt.KafkaBolt;
-import storm.kafka.bolt.mapper.FieldNameBasedTupleToKafkaMapper;
-import storm.kafka.bolt.selector.DefaultTopicSelector;
 
-import java.util.Properties;
 import java.util.UUID;
 
 /**
@@ -36,8 +32,8 @@ public class TestTopology {
 //                .shuffleGrouping("kafka spout");
 
         Config config = new Config();
-        config.setDebug(true);
-        Properties props = new Properties();
+        config.setDebug(false);
+        //Properties props = new Properties();
 //        props.put("metadata.broker.list", "localhost:2181");
 //        props.put("request.required.acks", "1");
 //        props.put("serializer.class", "kafka.serializer.StringEncoder");

@@ -22,7 +22,7 @@ import java.util.Map;
 public class KafkaTopologie {
     public static void main(String[] args) throws Exception {
         BrokerHosts brokerHosts = new ZkHosts("localhost:2181");
-        SpoutConfig spoutConfig = new SpoutConfig(brokerHosts, "topic1", "/zkkafkaspout" , "kafkaspout");
+        SpoutConfig spoutConfig = new SpoutConfig(brokerHosts, "inputTopic", "/zkkafkaspout" , "kafkaspout");
         Config conf = new Config();
         Map<String, String> map = new HashMap<>();
         map.put("metadata.broker.list", "localhost:9092");
@@ -40,7 +40,7 @@ public class KafkaTopologie {
         }else{
             LocalCluster cluster = new LocalCluster();
             cluster.submitTopology("Topo", conf, builder.createTopology());
-            Utils.sleep(100000);
+            Utils.sleep(10000);
             cluster.killTopology("Topo");
             cluster.shutdown();
         }

@@ -32,7 +32,7 @@ var Simulation = function(simulationParams) {
 
                 for (var i = 0 ; i < simulationParams.launchSize ; ++i) {
 
-                    var myDrone = new Drone(runningDrones, "usual_tracking_message", simulationParams.droneSimulationLength, simulationParams.dronePingFrequency);
+                        var myDrone = new Drone(runningDrones, "usual_tracking_message", simulationParams.droneSimulationLength, simulationParams.dronePingFrequency);
 
                     drones[runningDrones++] = myDrone;
 
