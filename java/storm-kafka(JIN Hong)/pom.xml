@@ -26,9 +26,8 @@
     </parent>
 
     <packaging>jar</packaging>
-    <artifactId>storm-kafka</artifactId>
-    <name>storm-kafka</name>
-    <description>Storm Spouts for Apache Kafka</description>
+    <artifactId>event-processor</artifactId>
+    <name>event-processor</name>
     <build>
         <plugins>
             <plugin>
