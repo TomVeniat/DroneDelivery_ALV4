@@ -11,6 +11,7 @@ import kafka.javaapi.producer.Producer;
 import kafka.producer.KeyedMessage;
 import kafka.producer.ProducerConfig;
 import org.I0Itec.zkclient.ZkClient;
+import kafka.utils.ZKStringSerializer$;
 import org.json.simple.JSONObject;
 
 import java.util.Properties;
@@ -21,33 +22,31 @@ import java.util.Properties;
 public class SendMessageBolt extends BaseBasicBolt {
     public void execute(Tuple input, BasicOutputCollector collector) {
 
-        ZkClient zkClient = new ZkClient("localhost:2181");
+        ZkClient zkClient = new ZkClient("localhost:2181", 10000, 10000, ZKStringSerializer$.MODULE$);
 
-        JSONObject jsonObject = (JSONObject) input.getValue(1);
-        int droneNumber = (int) jsonObject.get("id");
-        String topicName =  new String(KafkaTopologie.TOPIC_TABLE.get(droneNumber));
-
-
-        if(!AdminUtils.topicExists(zkClient, KafkaTopologie.TOPIC_TABLE.get(droneNumber))) {
+        //JSONObject jsonObject = (JSONObject) input.getValue(1);
+        //int droneNumber = (int) jsonObject.get("id");
+        //String topicName =  new String(KafkaTopologie.TOPIC_TABLE.get(droneNumber));
+        String word = (String) input.getValue(0);
+        String topic = word.split(",topic: ")[1];
+        if(!AdminUtils.topicExists(zkClient, topic)) {
+            System.out.println("No topic" + topic);
             Properties properties = new Properties();
-            AdminUtils.createTopic(zkClient, topicName, 1, 1, properties);
+            AdminUtils.createTopic(zkClient, topic, 1, 1, properties);
         }
 
 
-        System.out.println("DAAAAAAAAAAAAAAAAAAAAAAAANS SSSSSSSSSSSSSSSSEEEEEEEND MESSSSSSAGEEE");
+        //System.out.println("DAAAAAAAAAAAAAAAAAAAAAAAANS SSSSSSSSSSSSSSSSEEEEEEEND MESSSSSSAGEEE");
         Properties props = new Properties();
         props.put("serializer.class", "kafka.serializer.StringEncoder");
         props.put("kafka.broker.list", "localhost:9092");
         props.put("kafka.zookeeper.url", "localhost:2181");
         props.put("metadata.broker.list", "localhost:9092");
         ProducerConfig config = new ProducerConfig(props);
-
+        word = word.split(",topic:")[0];
         Producer<String, String> producer = new Producer<String, String>(config);
-
-        String topic = (String) input.getValue(0);
-        String message = (String) input.getValue(1);
-        String out = "###########" + topic +':'+ message +  " SENT! ############";
-        producer.send(new KeyedMessage<String, String>(topicName, message));
+        String out = "###########" + topic +':'+ word +  " SENT! ############";
+        producer.send(new KeyedMessage<String, String>(topic.toString(), word.toString()));
         producer.close();
         System.out.println("out=" + out);
         collector.emit(new Values(out));
