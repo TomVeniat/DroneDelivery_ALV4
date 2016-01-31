@@ -7,7 +7,7 @@
 
   <groupId>io.vertx</groupId>
   <artifactId>drone-message-handler</artifactId>
-  <version>3.1.0</version>
+  <version>1.0</version>
 
   <properties>
     <!-- the main verticle class name -->
@@ -18,7 +18,7 @@
     <dependency>
       <groupId>io.vertx</groupId>
       <artifactId>vertx-core</artifactId>
-      <version>${project.version}</version>
+      <version>3.1.0</version>
     </dependency>
 
     <dependency>
