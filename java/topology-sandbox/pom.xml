@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>fr.unice.polytech.al.dronedelivery.enast</groupId>
-    <artifactId>processor</artifactId>
+    <artifactId>sandbox</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
