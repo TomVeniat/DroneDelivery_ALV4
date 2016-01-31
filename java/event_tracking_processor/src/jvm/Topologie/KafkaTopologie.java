@@ -20,7 +20,12 @@ import java.util.Map;
  * Created by jinhong on 29/01/2016.
  */
 public class KafkaTopologie {
+    public static Map<String, String> TOPIC_TABLE = new HashMap<>();
+
     public static void main(String[] args) throws Exception {
+        for(int i =0;i<100;i++){
+            TOPIC_TABLE.put(""+i, "Topic"+i);
+        }
         BrokerHosts brokerHosts = new ZkHosts("localhost:2181");
         SpoutConfig spoutConfig = new SpoutConfig(brokerHosts, "inputTopic", "/zkkafkaspout" , "kafkaspout");
         Config conf = new Config();
@@ -32,8 +37,11 @@ public class KafkaTopologie {
         spoutConfig.scheme = new SchemeAsMultiScheme(new MessageScheme());
         TopologyBuilder builder = new TopologyBuilder();
         builder.setSpout("spout", new KafkaSpout(spoutConfig));
-        builder.setBolt("bolt", new SenquenceBolt()).shuffleGrouping("spout");
-        builder.setBolt("kafkabolt", new KafkaBolt<String, Integer>()).shuffleGrouping("bolt");
+        builder.setBolt("getTopicBolt", new GetTopicBolt()).shuffleGrouping("spout");
+        builder.setBolt("getMessageBolt", new GetMessageBolt()).shuffleGrouping("spout");
+        builder.setBolt("sendMessageBolt", new SendMessageBolt()).shuffleGrouping("getTopicBolt").shuffleGrouping("getMessageBolt");
+        //builder.setBolt("bolt", new SenquenceBolt()).shuffleGrouping("spout");
+        builder.setBolt("kafkabolt", new KafkaBolt<String, Integer>()).shuffleGrouping("getTopicBolt");
         if (args != null && args.length > 0) {
             conf.setNumWorkers(3);
             StormSubmitter.submitTopology(args[0], conf, builder.createTopology());
