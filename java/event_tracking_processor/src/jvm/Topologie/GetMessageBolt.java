@@ -12,7 +12,7 @@ import backtype.storm.tuple.Values;
  */
 public class GetMessageBolt extends BaseBasicBolt {
     public void execute(Tuple input, BasicOutputCollector collector) {
-
+        System.out.println("DAAAAAAAAAAAAAAAAAAAAAAAAAAAANS GEEEEEEEEEEEEET MEEEEEEEESSSSSSSSSSAAAAAGE");
         String word = (String) input.getValue(0);
         String message[] = word.split(",");
         String output;
