@@ -13,9 +13,4 @@ public class EmailObserver implements  Observer {
         gmailManager = new GmailManager();
         gmailManager.setDestination(destination);
     }
-
-    public static  void main(String[] args) {
-        Observer observer = new EmailObserver("sunquanmw@gmail.com");
-        observer.notify("Hello Hello");
-    }
 }

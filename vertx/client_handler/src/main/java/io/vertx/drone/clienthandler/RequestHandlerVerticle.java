@@ -19,14 +19,6 @@ import java.util.Properties;
 
 public class RequestHandlerVerticle extends AbstractVerticle {
 
-/*    public static final String ZOOKEEPER_CONNECT = "zookeeper.connect";
-    public static final String GROUP_ID = "group.id";
-    public static final String ZOOKEEPER_SESSION_TIMEOUT_MS = "zookeeper.session.timeout.ms";
-    public static final String ZOOKEEPER_SYNC_TIME_MS = "zookeeper.sync.time.ms";
-    public static final String AUTO_COMMIT_INTERVAL_MS = "auto.commit.interval.ms";
-    public static final String TOPIC = "topic";
-    public static final String ADDRESS = "address";
-    public static final String AUTO_OFFSET_RESET = "auto.offset.reset";*/
     private Thread consumerThread;
 
 
@@ -72,12 +64,14 @@ public class RequestHandlerVerticle extends AbstractVerticle {
                 topicCountMap.put(topic, 1);
                 Map<String, List<KafkaStream<byte[], byte[]>>> consumerMap = consumer.createMessageStreams(topicCountMap);
                 List<KafkaStream<byte[], byte[]>> streams = consumerMap.get(topic);
-                KafkaStream<byte[], byte[]> messageAndMetadatas = streams.get(0);
-                messageAndMetadatas.forEach(msg -> {
-                    System.out.println(new String(msg.message()));
-                    String message =new String(msg.message());
-                    Observer observer = new EmailObserver(email);
-                    observer.notify(message);
+                //KafkaStream<byte[], byte[]> messageAndMetadatas = streams.get(0);
+                streams.forEach(messageAndMetadatas -> {
+                        messageAndMetadatas.forEach(msg -> {
+                            System.out.println(new String(msg.message()));
+                            String message =new String(msg.message());
+                            Observer observer = new EmailObserver(email);
+                            observer.notify(message);
+                        });
                 });
                 consumer.shutdown();
             };
