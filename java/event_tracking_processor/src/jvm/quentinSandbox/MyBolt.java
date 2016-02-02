@@ -28,6 +28,7 @@ public class MyBolt extends BaseBasicBolt{
         System.out.println("####################################################################################################");
         System.out.println("------------------------------------ Message Reveiced -----------------------------------------------");
         System.out.println("####################################################################################################");
+
         Properties props = new Properties();
         props.put("serializer.class", "kafka.serializer.StringEncoder");
         props.put("kafka.broker.list", "localhost:9092");
@@ -40,14 +41,17 @@ public class MyBolt extends BaseBasicBolt{
         String word = (String) input.getValue(0);
         String out = "########### I'm " + word +  "! ############";
         String topic = "failedTopic";
+
+        JSONObject jsonObject = null;
         try {
-            JSONObject jsonObject = (JSONObject) new JSONParser().parse(word);
+            jsonObject = (JSONObject) new JSONParser().parse(word);
             topic = "topic" +  DroneTopicMock.getDroneTopic((Long) jsonObject.get("id"));
             System.out.println("########################################################################################" +
                     "topic : " + topic
                     + "################################################################################################");
-            System.out.println("The id : " + jsonObject.get("id"));
-            System.out.println("the mock : " + DroneTopicMock.getDroneTopic((Long) jsonObject.get("id")));
+
+            jsonObject = TrackingMock.trackingCheck(jsonObject);
+
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -62,11 +66,13 @@ public class MyBolt extends BaseBasicBolt{
             AdminUtils.createTopic(zkClient, topic, 1, 1, properties);
         }
 
+        if(jsonObject != null) {
+            producer.send(new KeyedMessage<>(topic, jsonObject.toString()));
+            producer.close();
+            System.out.println("out=" + out);
+            collector.emit(new Values(out));
+        }
 
-        producer.send(new KeyedMessage<String, String>("outputTopic", word.toString()));
-        producer.close();
-        System.out.println("out=" + out);
-        collector.emit(new Values(out));
     }
     public void declareOutputFields(OutputFieldsDeclarer declarer){
         declarer.declare(new Fields("message"));
