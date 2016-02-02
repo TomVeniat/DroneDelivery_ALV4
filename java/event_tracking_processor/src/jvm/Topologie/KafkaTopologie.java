@@ -37,12 +37,12 @@ public class KafkaTopologie {
         spoutConfig.scheme = new SchemeAsMultiScheme(new MessageScheme());
         TopologyBuilder builder = new TopologyBuilder();
         builder.setSpout("spout", new KafkaSpout(spoutConfig));
-        builder.setBolt("getTopicBolt", new GetTopicBolt()).shuffleGrouping("spout");
-       // builder.setBolt("getMessageBolt", new GetMessageBolt()).shuffleGrouping("spout");
+        builder.setBolt("getMessageBolt", new GetMessageBolt()).shuffleGrouping("spout");
+        builder.setBolt("checkMessageBolt", new CheckMessageBolt()).shuffleGrouping("getMessageBolt");
         //builder.setBolt("sendMessageBolt", new SendMessageBolt()).shuffleGrouping("getTopicBolt").shuffleGrouping("getMessageBolt");
-        builder.setBolt("sendMessageBolt", new SendMessageBolt()).shuffleGrouping("getTopicBolt");
-        //builder.setBolt("bolt", new SenquenceBolt()).shuffleGrouping("spout");
-        builder.setBolt("kafkabolt", new KafkaBolt<String, Integer>()).shuffleGrouping("getTopicBolt");
+        builder.setBolt("sendMessageBolt", new SendMessageBolt()).shuffleGrouping("checkMessageBolt");
+        //builder.setBolt("bolt", new SenquenceBolt()).shuffleGrouping("checkMessageBolt");
+        builder.setBolt("kafkabolt", new KafkaBolt<String, Integer>()).shuffleGrouping("checkMessageBolt");
         if (args != null && args.length > 0) {
             conf.setNumWorkers(3);
             StormSubmitter.submitTopology(args[0], conf, builder.createTopology());

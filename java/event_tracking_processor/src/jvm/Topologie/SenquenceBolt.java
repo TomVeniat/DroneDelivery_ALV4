@@ -29,7 +29,7 @@ public class SenquenceBolt extends BaseBasicBolt{
 
         String word = (String) input.getValue(0);
         String out = "########### I'm " + word +  "! ############";
-        producer.send(new KeyedMessage<String, String>("outputTopic", word.toString()));
+        producer.send(new KeyedMessage<String, String>("Topic4", word.toString()));
         producer.close();
         System.out.println("out=" + out);
         collector.emit(new Values(out));
