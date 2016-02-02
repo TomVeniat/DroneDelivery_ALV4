@@ -14,6 +14,7 @@ public class TrackingMock {
         if(lat > 100) {
             jsonObject.put("event", "flight_reported");
         }
+
         return jsonObject;
     }
 }
