@@ -2,6 +2,7 @@ package quentinSandbox;
 
 import backtype.storm.Config;
 import backtype.storm.LocalCluster;
+import backtype.storm.StormSubmitter;
 import backtype.storm.spout.SchemeAsMultiScheme;
 import backtype.storm.topology.TopologyBuilder;
 import backtype.storm.utils.Utils;
@@ -21,7 +22,7 @@ public class KafkaTopology {
     public static void main(String[] args) throws Exception {
         System.out.println("###########################################################################################################################################");
         BrokerHosts brokerHosts = new ZkHosts("localhost:2181");
-        SpoutConfig spoutConfig = new SpoutConfig(brokerHosts, "testToto", "/zkkafkaspout" , "kafkaspout");
+        SpoutConfig spoutConfig = new SpoutConfig(brokerHosts, "inputTopic", "/zkkafkaspout" , "kafkaspout");
         Config conf = new Config();
         Map<String, String> map = new HashMap<>();
         map.put("metadata.broker.list", "localhost:9092");
@@ -34,14 +35,17 @@ public class KafkaTopology {
         builder.setBolt("bolt", new MyBolt()).shuffleGrouping("spout");
         builder.setBolt("kafkabolt", new KafkaBolt<String, Integer>()).shuffleGrouping("bolt");
 
-
-        LocalCluster cluster = new LocalCluster();
-        cluster.submitTopology("Topo", conf, builder.createTopology());
-        System.out.println("###########################################################################################################################################");
-        Utils.sleep(10000);
-        System.out.println("###########################################################################################################################################");
-        cluster.killTopology("Topo");
-        cluster.shutdown();
-
+        if (args != null && args.length > 0) {
+            conf.setNumWorkers(3);
+            StormSubmitter.submitTopology(args[0], conf, builder.createTopology());
+        }else{
+            LocalCluster cluster = new LocalCluster();
+            cluster.submitTopology("Topo", conf, builder.createTopology());
+            System.out.println("###########################################################################################################################################");
+            Utils.sleep(10000);
+            System.out.println("###########################################################################################################################################");
+            cluster.killTopology("Topo");
+            cluster.shutdown();
+        }
     }
 }

@@ -17,7 +17,7 @@ import java.util.Random;
  * Created by SUN on 17/01/2016.
  */
 public class KafkaPusher {
-    final static String TOPIC = "javatest2";
+    final static String TOPIC = "inputTopic";
     private int partitions = 1;
     private int replication = 1;
     private static Properties properties;
@@ -67,6 +67,8 @@ public class KafkaPusher {
         ProducerConfig producerConfig = new ProducerConfig(properties);
         kafka.javaapi.producer.Producer<String,String> producer = new kafka.javaapi.producer.Producer<String, String>(producerConfig);
         SimpleDateFormat sdf = new SimpleDateFormat();
+        System.out.println("test" + drone.toString());
+        System.out.println("topic" + TOPIC);
         KeyedMessage<String, String> message =new KeyedMessage<String, String>(TOPIC,drone.toString());
         producer.send(message);
         producer.close();
