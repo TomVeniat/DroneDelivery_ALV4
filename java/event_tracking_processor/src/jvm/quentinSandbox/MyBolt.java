@@ -23,6 +23,7 @@ import java.util.Properties;
  * Created by jinhong on 29/01/2016.
  */
 public class MyBolt extends BaseBasicBolt{
+
     public void execute(Tuple input, BasicOutputCollector collector) {
         System.out.println("####################################################################################################");
         System.out.println("------------------------------------ Message Reveiced -----------------------------------------------");
@@ -41,10 +42,12 @@ public class MyBolt extends BaseBasicBolt{
         String topic = "failedTopic";
         try {
             JSONObject jsonObject = (JSONObject) new JSONParser().parse(word);
-            topic = "topic" + jsonObject.get("id");
+            topic = "topic" +  DroneTopicMock.getDroneTopic((Long) jsonObject.get("id"));
             System.out.println("########################################################################################" +
-                    "id : " + jsonObject.get("id")
+                    "topic : " + topic
                     + "################################################################################################");
+            System.out.println("The id : " + jsonObject.get("id"));
+            System.out.println("the mock : " + DroneTopicMock.getDroneTopic((Long) jsonObject.get("id")));
         } catch (ParseException e) {
             e.printStackTrace();
         }
