@@ -62,15 +62,10 @@ public class RequestHandlerVerticle extends AbstractVerticle {
         router.post("/subscription/create").handler(routingContext -> {
             //Get the messages send by the drone
             JsonObject req = routingContext.getBodyAsJson();
-            System.out.println(req);
             String topic = req.getString("topicId");
-            //MyKafkaConsumer kafkaConsumer = new MyKafkaConsumer(topic);
-            //kafkaConsumer.runConsumer();
-            String targetAddress = config().getString(ADDRESS, "kafka-" + topic);
-            System.out.println("Hello1");
-            System.out.println("targetAddress : " + targetAddress);
-            Context ctx = vertx.getOrCreateContext();
-            System.out.println("Hello2");
+            String email = req.getString("email");
+            //String targetAddress = config().getString(ADDRESS, "kafka-" + topic);
+            //Context ctx = vertx.getOrCreateContext();
 
             Runnable consumerRunnable = () -> {
                 ConsumerConnector consumer = kafka.consumer.Consumer.createJavaConsumerConnector(
@@ -81,10 +76,11 @@ public class RequestHandlerVerticle extends AbstractVerticle {
                 List<KafkaStream<byte[], byte[]>> streams = consumerMap.get(topic);
                 KafkaStream<byte[], byte[]> messageAndMetadatas = streams.get(0);
                 messageAndMetadatas.forEach(msg -> {
-                    ctx.runOnContext(exe -> vertx.eventBus().send(targetAddress, msg.message()));
                     System.out.println(new String(msg.message()));
+                    String message =new String(msg.message());
+                    Observer observer = new EmailObserver(email);
+                    observer.notify(message);
                 });
-                System.out.println("Hello2");
                 consumer.shutdown();
             };
 

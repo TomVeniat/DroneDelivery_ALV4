@@ -34,6 +34,7 @@ public class DroneMessageVerticle extends AbstractVerticle {
                         System.out.println(req);
                         //Check message validity
                         Drone drone = DroneMessageParser.parse(req);
+                        System.out.println(drone);
                         if(drone != null) {
                                 //The message is valid, push in the topic
                                 new KafkaPusher().pushMessage(drone);
