@@ -72,12 +72,12 @@ public class Drone {
     @Override
     public String toString() {
         return "{" +
-                "id :" + id +
-                ", lat: " + lat +
-                ", lon: " + lon +
-                ", alt: " + alt +
-                ", fuel: " + fuel +
-                ", event='" + event + '\'' +
+                "\"id\":" + id +
+                ",\"lat\":" + lat +
+                ",\"lon\":" + lon +
+                ",\"alt\":" + alt +
+                ",\"fuel\":" + fuel +
+                ",\"event\":\"" + event + "\"" +
                 '}';
     }
 }
