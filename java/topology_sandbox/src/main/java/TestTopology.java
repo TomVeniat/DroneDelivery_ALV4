@@ -13,6 +13,7 @@ import java.util.UUID;
 public class TestTopology {
 
     public static void main(String[] args) {
+        System.out.println("#####################################################################################################");
         BrokerHosts hosts = new ZkHosts("127.0.0.1:2181");
         SpoutConfig spoutConfig = new SpoutConfig(hosts, "test", "/" + "test", UUID.randomUUID().toString());
         spoutConfig.scheme = new SchemeAsMultiScheme(new StringScheme());
@@ -21,6 +22,7 @@ public class TestTopology {
 //        KafkaBolt kafkaBolt= new KafkaBolt()
 //                .withTopicSelector(new DefaultTopicSelector("out"))
 //                .withTupleToKafkaMapper(new FieldNameBasedTupleToKafkaMapper());
+        System.out.println("#####################################################################################################");
 
         TopologyBuilder builder = new TopologyBuilder();
 
@@ -30,6 +32,7 @@ public class TestTopology {
                 .shuffleGrouping("kafka spout");
 //        builder.setBolt("kafka bolt", kafkaBolt)
 //                .shuffleGrouping("kafka spout");
+        System.out.println("#####################################################################################################");
 
         Config config = new Config();
         config.setDebug(false);
@@ -39,10 +42,14 @@ public class TestTopology {
 //        props.put("serializer.class", "kafka.serializer.StringEncoder");
 //        props.put("topic", "out");
 //        config.put(KafkaBolt.KAFKA_BROKER_PROPERTIES, props);
+        System.out.println("#####################################################################################################");
 
         LocalCluster cluster = new LocalCluster();
         cluster.submitTopology("test", config, builder.createTopology());
-        Utils.sleep(10000);
+        System.out.println("#####################################################################################################");
+
+        Utils.sleep(2000000000);
+        System.out.println("#####################################################################################################");
         cluster.killTopology("test");
         cluster.shutdown();
     }
