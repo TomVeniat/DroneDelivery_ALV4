@@ -69,7 +69,7 @@ public class RequestHandlerVerticle extends AbstractVerticle {
                             System.out.println(new String(msg.message()));
 
                             JsonObject message =new JsonObject(new String(msg.message()));
-                            if(message.getString("event").equals("end_flight")) {
+                            if(message.getString("event").equals("delivery") || message.getString("event").equals("flight_reported")) {
                                 Observer observer = new EmailObserver(email);
                                 observer.notify(message.toString());
                             }
