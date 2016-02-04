@@ -30,15 +30,16 @@ var Drone = function(id, event, totalMessages, pingFrequency) {
                  console.log("Drone n°" + id + " : Message n°" + sentMessages + " posted.");
              }
 
-             $.post("http://37.187.103.241:9000/drone_message",
-                 {
-                     "id": "\""+id + "\"",
-                     "lat": "10.1",
-                     "lon": "12.1",
-                     "alt": "15.0",
-                     "fuel": "99",
-                     "event": event
-                 }).done(function(data) {
+             var test = {
+                 "id": "" + id ,
+                 "lat": "10.1",
+                 "lon": "12.1",
+                 "alt": "15.0",
+                 "fuel": "99",
+                 "event": event
+             }
+             console.log(test);
+             $.post("http://37.187.103.241:9000/drone_message",test).done(function(data) {
                     if((sentMessages % 5) == 0 )
                         console.log("Drone n°" + id + " : Message n°" + (sentMessages) + " : OK.");
 
