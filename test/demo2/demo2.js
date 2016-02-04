@@ -105,5 +105,5 @@ function generateScenario(failing) {
 var scenario0 = generateScenario(false),
 	scenario1 = generateScenario(true);
 
-new Drone(25, scenario0).run();
+new Drone(10, scenario0).run();
 new Drone(20, scenario1).run();
