@@ -57,7 +57,7 @@ public class RequestHandlerVerticle extends AbstractVerticle {
             String email = req.getString("email");
 
             Runnable consumerRunnable = () -> {
-                String groupid = email.replaceAll("@", "_");
+                String groupid = email.replaceAll("@", "_").replaceAll("\\d", "_");
                 ConsumerConnector consumer = kafka.consumer.Consumer.createJavaConsumerConnector(
                         createConsumerConfig(config(), groupid));
                 Map<String, Integer> topicCountMap = new HashMap<String, Integer>();
@@ -68,7 +68,6 @@ public class RequestHandlerVerticle extends AbstractVerticle {
                 streams.forEach(messageAndMetadatas -> {
                         messageAndMetadatas.forEach(msg -> {
                             System.out.println(new String(msg.message()));
-
                             JsonObject message =new JsonObject(new String(msg.message()));
                             if(message.getString("event").equals("delivery") || message.getString("event").equals("flight_reported")) {
                                 Observer observer = new EmailObserver(email);
