@@ -6,7 +6,7 @@ var http = require("http"),
 var options = {
 	hostname: host.slice(0, host.indexOf(":")),
 	port: host.slice(host.indexOf(":") + 1, host.length),
-	path: "",
+	path: "/drone_message",
 	method: "POST",
 	headers: {
 		"Content-Type": "application/json",
@@ -41,7 +41,7 @@ class Drone {
 				else {
 					clearInterval(interval);
 				}
-			}, 500);
+			}, 5000);
 		console.log("running!");
 	}
 }
@@ -49,11 +49,11 @@ class Drone {
 function buildMessage(id, scenarioItem, n, scenarioLength) {
 	var message = scenarioItem;
 
-	message.id = id;
+	message.id = "" + id;
 	if (n == 0)
 		message.event = "start_flight";
 	else if (n == scenarioLength)
-		message.event = "end flight";
+		message.event = "end_flight";
 	else if (n == scenarioLength / 2)
 		message.event = "delivery";
 	else message.event = "usual_tracking_message";
@@ -63,7 +63,8 @@ function buildMessage(id, scenarioItem, n, scenarioLength) {
 
 function generateScenario(failing) {
 	var scenario = [],
-		messages = Math.floor(Math.random() * 200) + 1,
+		//messages = Math.floor(Math.random() * 200) + 1,
+		messages = 36,
 		finalFuel = Math.random() * 100,
 		lon = 10.7,
 		lat = 12.2,
@@ -95,7 +96,7 @@ function generateScenario(failing) {
 
 		fuel = (messages - i) / messages * (100 - finalFuel) + finalFuel;
 		//console.log(lon, lat, alt, fuel);
-		scenario.push({ lon: lon, lat: lat, alt: alt, fuel: fuel });
+		scenario.push({ lon: "" + lon, lat: "" + lat, alt: "" + alt, fuel: "" + fuel });
 	};
 
 	return scenario;
@@ -104,5 +105,5 @@ function generateScenario(failing) {
 var scenario0 = generateScenario(false),
 	scenario1 = generateScenario(true);
 
-new Drone(0, scenario0).run();
-new Drone(1, scenario1).run();
+new Drone(25, scenario0).run();
+new Drone(20, scenario1).run();

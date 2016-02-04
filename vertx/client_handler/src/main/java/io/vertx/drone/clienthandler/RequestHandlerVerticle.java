@@ -1,7 +1,6 @@
 package io.vertx.drone.clienthandler;
 
 import io.vertx.core.AbstractVerticle;
-import io.vertx.core.Context;
 import io.vertx.core.Future;
 import io.vertx.core.http.HttpServer;
 import io.vertx.core.http.HttpServerResponse;
@@ -69,9 +68,12 @@ public class RequestHandlerVerticle extends AbstractVerticle {
                 streams.forEach(messageAndMetadatas -> {
                         messageAndMetadatas.forEach(msg -> {
                             System.out.println(new String(msg.message()));
-                            String message =new String(msg.message());
-                            Observer observer = new EmailObserver(email);
-                            observer.notify(message);
+
+                            JsonObject message =new JsonObject(new String(msg.message()));
+                            if(message.getString("event").equals("delivery") || message.getString("event").equals("flight_reported")) {
+                                Observer observer = new EmailObserver(email);
+                                observer.notify(message.toString());
+                            }
                         });
                 });
                 consumer.shutdown();
