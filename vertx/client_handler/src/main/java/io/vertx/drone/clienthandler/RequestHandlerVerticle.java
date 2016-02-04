@@ -22,10 +22,10 @@ public class RequestHandlerVerticle extends AbstractVerticle {
     private Thread consumerThread;
 
 
-    private ConsumerConfig createConsumerConfig(JsonObject config) {
+    private ConsumerConfig createConsumerConfig(JsonObject config, String groupId) {
         Properties props = new Properties();
         props.put("zookeeper.connect", "localhost:2181");
-        props.put("group.id", "test");
+        props.put("group.id", groupId);
         props.put("zookeeper.session.timeout.ms", "500");
         props.put("zookeeper.sync.time.ms", "250");
         props.put("auto.commit.interval.ms", "1000");
@@ -58,8 +58,9 @@ public class RequestHandlerVerticle extends AbstractVerticle {
             String email = req.getString("email");
 
             Runnable consumerRunnable = () -> {
+                String groupid = email.replaceAll("@", "_");
                 ConsumerConnector consumer = kafka.consumer.Consumer.createJavaConsumerConnector(
-                        createConsumerConfig(config()));
+                        createConsumerConfig(config(), groupid));
                 Map<String, Integer> topicCountMap = new HashMap<String, Integer>();
                 topicCountMap.put(topic, 1);
                 Map<String, List<KafkaStream<byte[], byte[]>>> consumerMap = consumer.createMessageStreams(topicCountMap);
