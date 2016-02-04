@@ -103,7 +103,32 @@ function generateScenario(failing) {
 }
 
 var scenario0 = generateScenario(false),
-	scenario1 = generateScenario(true);
+	scenario1 = generateScenario(false),
+	scenario2 = generateScenario(false),
+	scenario3 = generateScenario(false),
+	scenario4 = generateScenario(false),
+	scenario5 = generateScenario(false),
+	scenario6 = generateScenario(false),
+	scenario7 = generateScenario(false),
+	scenario8 = generateScenario(false),
+	scenario9 = generateScenario(false),
+	scenario10 = generateScenario(true);
 
 new Drone(10, scenario0).run();
 new Drone(20, scenario1).run();
+new Drone(30, scenario2).run();
+new Drone(40, scenario3).run();
+new Drone(50, scenario4).run();
+new Drone(60, scenario5).run();
+new Drone(70, scenario6).run();
+new Drone(80, scenario7).run();
+new Drone(90, scenario8).run();
+new Drone(100, scenario9).run();
+new Drone(110, scenario10).run();
+
+
+
+
+
+
+
