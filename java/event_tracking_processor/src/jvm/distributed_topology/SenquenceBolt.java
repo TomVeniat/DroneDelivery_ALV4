@@ -1,4 +1,4 @@
-package Topologie;
+package distributed_topology;
 
 import backtype.storm.topology.BasicOutputCollector;
 import backtype.storm.topology.OutputFieldsDeclarer;

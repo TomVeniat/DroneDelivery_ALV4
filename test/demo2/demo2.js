@@ -64,7 +64,7 @@ function buildMessage(id, scenarioItem, n, scenarioLength) {
 function generateScenario(failing) {
 	var scenario = [],
 		//messages = Math.floor(Math.random() * 200) + 1,
-		messages = 36,
+		messages = 10,
 		finalFuel = Math.random() * 100,
 		lon = 10.7,
 		lat = 12.2,
@@ -103,7 +103,31 @@ function generateScenario(failing) {
 }
 
 var scenario0 = generateScenario(false),
-	scenario1 = generateScenario(true);
+	scenario1 = generateScenario(false),
+	scenario2 = generateScenario(false),
+	scenario3 = generateScenario(false),
+	scenario4 = generateScenario(false),
+	scenario5 = generateScenario(false),
+	scenario6 = generateScenario(false),
+	scenario7 = generateScenario(false),
+	scenario8 = generateScenario(false),
+	scenario9 = generateScenario(false),
+	scenario10 = generateScenario(true);
 
-new Drone(25, scenario0).run();
-new Drone(20, scenario1).run();
+new Drone(30, scenario0).run();
+new Drone(31, scenario1).run();
+new Drone(32, scenario2).run();
+new Drone(33, scenario3).run();
+new Drone(34, scenario4).run();
+new Drone(35, scenario5).run();
+new Drone(36, scenario6).run();
+new Drone(37, scenario7).run();
+new Drone(38, scenario8).run();
+new Drone(39, scenario9).run();
+new Drone(40, scenario10).run();
+
+
+
+
+
+

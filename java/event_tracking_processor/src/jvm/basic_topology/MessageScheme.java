@@ -1,4 +1,4 @@
-package Topologie;
+package basic_topology;
 
 import backtype.storm.spout.Scheme;
 import backtype.storm.tuple.Fields;

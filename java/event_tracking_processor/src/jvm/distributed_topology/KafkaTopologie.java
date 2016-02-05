@@ -1,4 +1,4 @@
-package Topologie;
+package distributed_topology;
 
 import backtype.storm.Config;
 import backtype.storm.LocalCluster;
