@@ -1,13 +1,15 @@
 # Event Notification and Accurate Status Tracking
 
-Slides are [here][3].
+Defense slides are [here][3].
 
 And the demonstration video (not very understandable without a speaker) can be found [there][4].
 
 ## Setup
 
 For now, setup instructions are only provided to deploy the full stack on Ubuntu locally.
-[Contact us][#Team] if you need further information.
+[Contact us](#team) if you need further information.
+
+The instructions for the Node.js version are not provided at this time.
 
 ### Local
 
@@ -62,7 +64,7 @@ Open a new shell from the project root:
 
 ##### Node.js version
 
-// TODO
+// TODO:
 
 ### Remote deployment
 
@@ -99,15 +101,19 @@ POST localhost:9001/subscription/create
 
 ## Team
 
-// TODO
+ * [Quentin Cornevin](qcornevin@gmail.com)
+ * [Jin Hong](jinhong211@gmail.com)
+ * [Marc Karassev](marc.karassev@yahoo.fr)
+ * [Sun Quan](sun.quan@etu.unice.fr)
+ * [Tom Veniat](veniat.tom@gmail.com)
 
 ## Links
 
 // TODO
-[apache-kafka]
-[apache-storm]
-[node.js]
-[vert.x]
+ * [apache-kafka][8]
+ * [apache-storm][9]
+ * [node.js][7]
+ * [vert.x][10]
 
 [1]: tom.veniat@etu.unice.fr
 [2]: kafka.apache.org/downloads.html
@@ -116,3 +122,6 @@ POST localhost:9001/subscription/create
 [5]: http://kafka.apache.org/documentation.html#quickstart_startserver
 [6]: https://maven.apache.org/
 [7]: https://nodejs.org/en/
+[8]: kafka.apache.org/
+[9]: http://storm.apache.org/
+[10]: http://vertx.io/
