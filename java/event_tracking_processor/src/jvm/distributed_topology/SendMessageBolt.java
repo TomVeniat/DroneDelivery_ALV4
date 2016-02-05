@@ -1,4 +1,4 @@
-package Topologie;
+package distributed_topology;
 
 import backtype.storm.topology.BasicOutputCollector;
 import backtype.storm.topology.OutputFieldsDeclarer;
@@ -12,7 +12,6 @@ import kafka.producer.KeyedMessage;
 import kafka.producer.ProducerConfig;
 import org.I0Itec.zkclient.ZkClient;
 import kafka.utils.ZKStringSerializer$;
-import org.json.simple.JSONObject;
 
 import java.util.Properties;
 

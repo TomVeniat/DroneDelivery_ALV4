@@ -1,4 +1,4 @@
-package quentinSandbox;
+package distributed_topology;
 
 import backtype.storm.spout.Scheme;
 import backtype.storm.tuple.Fields;

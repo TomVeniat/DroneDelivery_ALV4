@@ -30,14 +30,8 @@ var Drone = function(id, event, totalMessages, pingFrequency) {
                  console.log("Drone n°" + id + " : Message n°" + sentMessages + " posted.");
              }
 
-             var test = {
-                 "id": "" + id ,
-                 "lat": "10.1",
-                 "lon": "12.1",
-                 "alt": "15.0",
-                 "fuel": "99",
-                 "event": event
-             }
+
+             var test = {"lon":"13.7","lat":"13.7","alt":"10","fuel":"95.00541661529698","id":"" + id,"event":"usual_tracking_message"};
              console.log(test);
              $.post("http://37.187.103.241:9000/drone_message",test).done(function(data) {
                     if((sentMessages % 5) == 0 )

@@ -14,13 +14,13 @@ function run() {
 
     var simulationParams = {
         //Total number of drones that will be used during the simulation
-        nbDrones : 1600,
+        nbDrones : 1,
 
         //frequency with which a single drone will send pings (in message/second)
         dronePingFrequency : 0.5,
 
         //Number that rules a single drone simulation duration (in messages sent).
-        droneSimulationLength : 15,
+        droneSimulationLength : 2,
 
         //Time elapsed bewteen two drone launch (in ms)
         timeBetweenLaunches : 500,

@@ -1,4 +1,4 @@
-package quentinSandbox;
+package basic_topology;
 
 
 import backtype.storm.topology.BasicOutputCollector;
